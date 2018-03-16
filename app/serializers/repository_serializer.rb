@@ -1,3 +1,3 @@
 class RepositorySerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id,:name,:owner_username,:description,:url,:primaryLanguage,:requests
 end

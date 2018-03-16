@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222083618) do
+ActiveRecord::Schema.define(version: 20180104022552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,11 +30,27 @@ ActiveRecord::Schema.define(version: 20171222083618) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.string "primaryLanguage"
+    t.integer "repo_id"
+    t.integer "gh_repo_id"
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.integer "repository_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "ownername"
   end
 
   create_table "user_repos", force: :cascade do |t|
     t.integer "user_id"
-    t.string "repository_integer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_requests", force: :cascade do |t|
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -47,6 +63,10 @@ ActiveRecord::Schema.define(version: 20171222083618) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "access_token"
+    t.string "password_digest"
+    t.string "email"
+    t.string "password"
+    t.integer "gh_user_id"
   end
 
 end

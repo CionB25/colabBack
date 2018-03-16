@@ -1,45 +1,38 @@
 class ApplicationController < ActionController::API
-  # include Knock::Authenticable
-  #
-  # private
-  #
-  # def authenticate_v1_user
-  #   authenticate_for V1::User
-  # end
-  # 
-  # before_action :authenticate
-  #
-  #
-  # def logged_in?
-  #   !!current_user
-  # end
-  #
-  # def current_user
-  #   if auth_present?
-  #     user.find(auth["user"])
-  #     if user
-  #       @current_user ||= user
-  #     end
-  #   end
-  # end
-  #
-  # def authenticate
-  #   render json: {error: "unathorized"}, status: 401
-  #    unless logged_in?
-  #    end
-  # end
-  #
-  # private
-  #
-  # def token
-  #   request.env["HTTP_AUTHORIZATION"].scan(/Bearer(.*)$/).flatten.last
-  # end
-  #
-  # def auth
-  #   Auth.decode(token)
-  # end
-  #
-  # def auth_present?
-  #   !!request.env.fetch("HTTP_AUTHORIZATION","").scan(/Bearer/).flatten.first
-  # end
+
+  def  issue_token(user)
+    JWT.encode({user_id: user.id}, ENV['MY_SECRET'],'HS256')
+  end
+
+  def current_user
+    @user ||= User.find_by(id: user_id)
+  end
+
+  def token
+    request.headers['Authorization']
+    # byebug
+  end
+
+  def decoded_token
+    begin
+      # [{user_id: 1}, {algo: 'hs256'}]
+      JWT.decode(token, ENV['MY_SECRET'], true, { :algorithm => 'HS256' })
+    rescue JWT::DecodeError
+      [{}]
+    end
+  end
+
+  def user_id
+    # token = request.headers['Authorization']
+    # byebug
+    # decoded = JWT.decode(token,'secret',true,{:algorithm => 'HS256'})
+    decoded_token.first["user_id"]
+  end
+
+  def logged_in?
+    !!current_user
+  end
+
 end
+
+ENV['MY_SECRET']
