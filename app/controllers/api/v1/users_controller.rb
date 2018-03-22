@@ -6,12 +6,11 @@ class Api::V1::UsersController < ApplicationController
 
     user_data = JSON.parse(RestClient::Request.execute(method: :post,
       url: 'https://api.github.com/graphql',
-      user: '7f08ff4567dff3e98168295fa442970fcdca4bd2',
+      user: '80dbfbd448e0863e883da0490cc69a338075f489',
       payload: {"query": "{user(login: \"#{login}\") {id,login,avatarUrl,bio,url,
       repositories(last: 8) {edges {node {id,description,url,primaryLanguage {
         name},owner {login},name,languages(last: 6) {
           edges {node {name}}}}}}}}"}.to_json))
-
       # @user = User.find_or_create_by(user_params(user_data,params))
       # @user.create_users(user_params(user_data,params))
       @user = User.find_by(username: user_data['data']['user']["login"])
@@ -21,6 +20,7 @@ class Api::V1::UsersController < ApplicationController
         @user = User.create(user_params(user_data,params))
       end
       @user.create_repos(user_data['data']['user']['repositories']['edges'])
+
       token = issue_token(@user)
       @user.jwt = token
       render json: @user

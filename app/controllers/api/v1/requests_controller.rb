@@ -21,16 +21,19 @@ class Api::V1::RequestsController < ApplicationController
 
     @user = User.find_by(username: params['username'])
 
+# byebug
     if @user
-
-    requests = Request.all.select {|request| request.ownername == @user.username}
+    # requests = @user.requests.collect {|req| req.repository}
+    requests = Request.all.select {|req| req.ownername == @user.username}
     request_repos = requests.collect {|req| req.repository}
 
     array = Request.all.select {|req| req.ownername != @user.username}
-    repos = requests.map {|req| req.repository}
-    my_requested = repos.select {|repo| repo.owner_username == @user.username}
+    repos = array.map {|req| req.repository}
+    my_requested  = repos.select {|repo| repo.owner_username == @user.username}
+    # my_requested = repos.collect {|req| req.repository}
 
     render json: {mine: request_repos, theirs: my_requested}
+    # byebug
   else
     render json: {error: "Please log in"}
   end

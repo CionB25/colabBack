@@ -1,24 +1,26 @@
-# README
+# The CoLab
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
+The Co-Lab API is Ruby on Rails back-end for A Github Community which allows users to shows what projects they are currently working on, which are available to collaborate. The app also provides the ability for users to search a feed of repositories to request the collaboration on other user's repositories. View here: https://github.com/CionB25/colabBack
 
-Things you may want to cover:
+## Technology
+* Rails
+* ActiveRecord, including Serializers
+* GraphQL API Requests
+* Bcrypt/JWT
 
-* Ruby version
+## GraphQL
+Utilized special calls to Github GraphQL API to assist with creating user database.
 
-* System dependencies
+## Database Structure
+* Repository
+* User
+* Request
+* User/Repo
+* User/Request
 
-* Configuration
+Users, Repositories & Requests all have their own unique routes to facilitate API calls via RESTful API protocol.
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## User Authentication
+User authentication and cookie storage through JSON Web Tokens (JWT)
+Logs users in on page load if their localStorage has a valid token.

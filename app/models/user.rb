@@ -1,6 +1,5 @@
 class User < ApplicationRecord
   attr_accessor :jwt
-  
   has_secure_password
 
   has_many :repositories
