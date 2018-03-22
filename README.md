@@ -1,4 +1,4 @@
-# The CoLab
+# The CoLab API
 
 ## Overview
 The Co-Lab API is Ruby on Rails back-end for A Github Community which allows users to shows what projects they are currently working on, which are available to collaborate. The app also provides the ability for users to search a feed of repositories to request the collaboration on other user's repositories. View here: https://github.com/CionB25/colabBack
