@@ -1,8 +1,9 @@
 class Api::V1::UsersController < ApplicationController
 
   def create
-    login = params['username'].downcase
-
+    byebug
+    # login = params['username'].downcase
+binding.pry
 
     user_data = JSON.parse(RestClient::Request.execute(method: :post,
       url: 'https://api.github.com/graphql',
