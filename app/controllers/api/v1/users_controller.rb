@@ -2,9 +2,8 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     byebug
-    # login = params['username'].downcase
-binding.pry
 
+# THIS IS THE USER INFO FOR GRAPHQL REQUEST
     user_data = JSON.parse(RestClient::Request.execute(method: :post,
       url: 'https://api.github.com/graphql',
       user: '80dbfbd448e0863e883da0490cc69a338075f489',
@@ -20,6 +19,27 @@ binding.pry
       else
         @user = User.create(user_params(user_data,params))
       end
+
+# THIS IS THE USER INFO FOR THE OAUTH REQUEST
+# body = {
+#       grant_type: "authorization_code",
+#       code: params[:code],
+#       redirect_uri: ENV["REDIRECT_URI"],
+#       client_id: ENV["CLIENT_ID"],
+#       client_secret: ENV["CLIENT_SECRET"]
+#     }
+#
+#     auth_response = RestClient.post("https://accounts.spotify.com/api/token", body)
+#     auth_params = JSON.parse(auth_response.body)
+#
+#     header = {
+#       Authorization: "Bearer #{auth_params["access_token"]}"
+#     }
+#
+#     user_response = RestClient.get('https://api.spotify.com/v1/me', header)
+#     user_params = JSON.parse(user_response.body)
+
+
       @user.create_repos(user_data['data']['user']['repositories']['edges'])
 
       token = issue_token(@user)
@@ -36,6 +56,7 @@ binding.pry
     private
 
   def user_params(user_data,params)
+    byebug
     params = {
       username: user_data['data']['user']["login"],
       avatarUrl: user_data['data']['user']['avatarUrl'],
